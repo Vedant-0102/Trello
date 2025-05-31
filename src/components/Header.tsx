@@ -121,7 +121,9 @@ export function Header() {
         description={`Are you sure you want to delete "${currentBoard?.title}"? This action cannot be undone.`}
         onConfirm={confirmDeleteBoard}
         confirmText="Delete"
+        confirmVariant="destructive"
         cancelText="Cancel"
+        className="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
       />
     </>
   );

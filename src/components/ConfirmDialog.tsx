@@ -1,14 +1,14 @@
 import React from 'react';
 import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogAction,
-  AlertDialogCancel,
-} from './ui/alert-dialog';
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from './ui/dialog';
+import { Button } from './ui/button';
+import { cn } from '@/lib/utils';
 
 interface ConfirmDialogProps {
   open: boolean;
@@ -17,7 +17,9 @@ interface ConfirmDialogProps {
   description: string;
   onConfirm: () => void;
   confirmText?: string;
+  confirmVariant?: 'default' | 'destructive';
   cancelText?: string;
+  className?: string;
 }
 
 export function ConfirmDialog({
@@ -26,35 +28,48 @@ export function ConfirmDialog({
   title,
   description,
   onConfirm,
-  confirmText = 'Delete',
+  confirmText = 'Confirm',
+  confirmVariant = 'default',
   cancelText = 'Cancel',
+  className,
 }: ConfirmDialogProps) {
-  const handleConfirm = () => {
-    onConfirm();
-    onOpenChange(false);
-  };
-
   return (
-    <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="bg-slate-50 border-slate-200">
-        <AlertDialogHeader>
-          <AlertDialogTitle className="text-slate-800">{title}</AlertDialogTitle>
-          <AlertDialogDescription className="text-slate-600">
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className={cn(
+        'max-w-sm bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700',
+        className
+      )}>
+        <DialogHeader>
+          <DialogTitle className="text-slate-900 dark:text-slate-100">
+            {title}
+          </DialogTitle>
+          <DialogDescription className="text-slate-600 dark:text-slate-400">
             {description}
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel className="bg-white hover:bg-slate-100 text-slate-700 border-slate-200">
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter className="gap-2 sm:gap-0">
+          <Button
+            variant="ghost"
+            onClick={() => onOpenChange(false)}
+            className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100"
+          >
             {cancelText}
-          </AlertDialogCancel>
-          <AlertDialogAction 
-            onClick={handleConfirm}
-            className="bg-red-500 hover:bg-red-600 text-white"
+          </Button>
+          <Button
+            variant={confirmVariant}
+            onClick={() => {
+              onConfirm();
+              onOpenChange(false);
+            }}
+            className={cn(
+              confirmVariant === 'destructive' && 
+              'bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800'
+            )}
           >
             {confirmText}
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }
