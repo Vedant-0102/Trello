@@ -1,4 +1,4 @@
-# Trello Clone
+# Trello 
 
 Trello built with React, TypeScript, and Tailwind CSS, featuring a clean and responsive design with dark mode support.
 
